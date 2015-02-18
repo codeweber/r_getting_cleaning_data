@@ -7,6 +7,10 @@ activities <- read.table("./data/UCI HAR Dataset/activity_labels.txt", col.names
 #Load the feature names
 features <- read.table("./data/UCI HAR Dataset/features.txt", col.names = c("num", "name"))
 
+#Determine which features are based on measurements of the mean and std deviation
+meanFeatures <- which(grepl("mean[(][)]", features$name))
+stdFeatures <- which(grepl("std[(][)]", features$name))
+
 #Using the feature names, create valid column names for a data frame, by removing the characters: () - ,
 features$validColName <- sapply(features$name, FUN=function(x){
   temp <- gsub("[(][)]", "", x)
@@ -14,9 +18,6 @@ features$validColName <- sapply(features$name, FUN=function(x){
   temp <- gsub(",", "_", temp)
 })
 
-#Determine which features are based on measurements of the mean and std deviation
-meanFeatures <- which(grepl("mean[(][)]", features$name))
-stdFeatures <- which(grepl("std[(][)]", features$name))
 
 
 #Load the test data into memory
